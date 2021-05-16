@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row mt-4">
+    <div class="col">
+        <h2>Add Task</h2>
+        <form class="form-inline" action={% url 'additem' %} method="POST"> {% csrf_token %}
+            <input type="text" name= "text" class="form-control mb-2
+            mr-sm-2" id="inlineFormInputName2" placeholder="Type here....">
+            <select class="form-select" aria-label="Default select example" name="priority">
+                <option selected>Select Priority</option>
+                <option value="1">High</option>
+                <option value="2">Medium</option>
+                <option value="3">Low</option>
+            </select>
+            <button type="submit" style="margin-top: 10px;" class="btn btn-primary mb-2">Submit</button>
+        </form>
+    </div>
+</div>
+
+<h2><span class="lead">
+    <span class="badge bg-warning text-dark">Hello {{user.username}}, you have {{count}} incomplete task.</span>
+</span></h2>
+<div class="row mt-4">
+    <div class="col">
+        <ul class="list-group">
+            {% if items %}
+                {% for item in items %}
+                
+                        <div class="card" style="margin-top: 10px;">
+                            <div class="card-header">
+                                {{item.priority}}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{item.text}}</h5>
+                                <p class="card-text">{{item.added_date}}</p>
+                                <a href="/del/{{item.id}}" class="btn btn-danger">Done</a>
+                            </div>
+                        </div>
+
+                {% endfor %}
+            {% else %}
+                <p>No items Found</p>
+            {% endif %}
+        </ul>
+    
+    </div>
+</div>
+
+{% endblock %}
